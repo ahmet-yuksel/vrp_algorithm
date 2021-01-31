@@ -13,7 +13,7 @@
 
 `[1,2,3],[1,2],[1,3],[2,3],[1],[2],[3]`
 
-bu değerlere göre siğarişlerin araçlara dağılım kombinasyonları bulunur.
+bu değerlere göre siparişlerin araçlara dağılım kombinasyonları bulunur.
 
 `{1:[1,2,3,4,5,6,7],2:[],3[]
 {1:[1],2:[2,3,4,5,6,7],3[]
@@ -21,7 +21,9 @@ bu değerlere göre siğarişlerin araçlara dağılım kombinasyonları bulunur
 {1:[1],2:[2],3[3,4,5,6,7]` ...
 
 
-sonrasında sort edilmiş bu listeden mükerrer olanlar silinir. Aşağıda olduğu gibi bu route birbirin aynısıdır. Sonraki adımda permütasyon fonksiyonu kullanarak siparişlerin farklı dizilimleri bulunup süreleri hesaplanacak minimum süreye sahip olan buluncaktır.
+sonrasında sort edilmiş bu listeden mükerrer olanlar silinir. 
+
+Aşağıdaki routelar birbirinin aynısıdır. Sonraki adımda order sıraları permütasyon fonksiyonu kullanarak  bulunacak ve süreleri hesaplanacaktır.
 
 `{1:[1,2,3,4,5,6,7],2:[],3[]
 {1:[7,6,5,4,3,2,1],2:[],3[]`
