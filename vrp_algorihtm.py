@@ -78,29 +78,32 @@ def comb_orders_by_vehicle(order_loc,vhc_comp_list):
 # 3:[4,7,3] = 1000 sec *
 # 3:[3,7,4] = 1700 sec
 # 3:[7,4,3] = 4000 sec
-#return {1:[2,1],2:[5,6],3:[4,7,3], 'Total_second':4000}
+#return {1:[2,1],2:[5,6],3:[4,7,3], 'total_second':4000}
 def calc_min_duration(data,route):
 
     min_seconds = sys.maxsize
-    max_seconds = 0
-    min_vhc_id=0
-    min_order_list=[]
-    route_lst2 = {1: [], 2: [], 3: [],"Total_second":0}
+    sum_seconds = 0
+    optimum_value = 0
+    min_vhc_id = 0
+    min_order_list = []
+    route_lst2 = {1: [], 2: [], 3: [],"total_second":0}
 
     for rt in route:
         perm = permutations(route[rt])
         min_seconds = sys.maxsize
         for i in list(perm):
-
-            vhc_id,order_list,total_second = calc_duration(data, rt, list(i))
-            if min_seconds>=total_second:
-                min_seconds=total_second
-                min_vhc_id=vhc_id
-                min_order_list=order_list
+            vhc_id, order_list, total_second = calc_duration(data, rt, list(i))
+            if min_seconds >= total_second:
+                min_seconds = total_second
+                min_vhc_id = vhc_id
+                min_order_list = order_list
 
         route_lst2[min_vhc_id] = min_order_list
-        max_seconds = max_seconds + min_seconds
-        route_lst2["Total_second"] = max_seconds
+        optimum_value = max( min_seconds,optimum_value)
+        sum_seconds = sum_seconds + min_seconds
+
+        route_lst2["total_second"] = sum_seconds
+        route_lst2["optimum_second"] = optimum_value
 
     return route_lst2
 #END calc minimum  permutations of route (vehicle-order matchin)
@@ -124,7 +127,7 @@ def calc_duration(data,vhc_id,order_list):
     return vhc_id, order_list, total_seconds
 
 
-def find_route(data):
+def find_route(data,optimum_flag):
 
     all_possible_vehicle_order = calc_possible_vehicle_order(data)
 
@@ -137,11 +140,10 @@ def find_route(data):
     for route in all_possbile_routes:
         route_list.append(calc_min_duration(data, route))
 
-    # sort route list and print first route
-    route_list.sort(key=myFunc)
-    return route_list
+    # sort route list
+    if optimum_flag:
+        return sorted(route_list, key=lambda x: (x['optimum_second'],x['total_second']))
+    else:
+        return sorted(route_list, key=lambda x: (x['total_second']))
 
-#sort function
-def myFunc(e):
-    return e['Total_second']
 
